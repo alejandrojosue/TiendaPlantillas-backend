@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "purchase_histories",
+  "info": {
+    "singularName": "purchase-history",
+    "pluralName": "purchase-histories",
+    "displayName": "Purchase_history",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "customer": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "stripeId": {
+      "type": "string"
+    },
+    "products": {
+      "type": "json"
+    },
+    "completed": {
+      "type": "boolean",
+      "default": false,
+      "required": false
+    }
+  }
+}
