@@ -64,7 +64,14 @@ module.exports = createCoreController('api::purchase-history.purchase-history', 
       })
 
       await strapi.service('api::purchase-history.purchase-history')
-        .create({ data: { products: productsJSON, stripeId: session.id, customer: { id: customer.id } } })
+        .create({ data: { products: productsJSON, stripeId: session.id, customer: { id: customer.id } } });
+
+      await Promise.all(
+        productsJSON.map(async (product) => {
+          await strapi.service('api::payment.payment')
+            .create({ data: { template: { id: product.id }, amount: product.unitPrice } })
+        })
+      )
 
       return { stripeSession: session }
     } catch (error) {

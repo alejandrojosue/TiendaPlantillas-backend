@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "withdrawals",
+  "info": {
+    "singularName": "withdrawal",
+    "pluralName": "withdrawals",
+    "displayName": "Withdrawal",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "payments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::payment.payment"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "PENDING",
+        "APPROVE",
+        "DENIED"
+      ],
+      "default": "PENDING",
+      "required": true
+    },
+    "notes": {
+      "type": "text",
+      "required": true,
+      "default": "Nothing"
+    },
+    "amount": {
+      "type": "decimal",
+      "required": true,
+      "min": 100
+    }
+  }
+}

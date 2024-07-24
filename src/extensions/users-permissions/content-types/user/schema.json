@@ -82,6 +82,9 @@
     "biography": {
       "type": "string",
       "maxLength": 200
+    },
+    "stripeLink": {
+      "type": "string"
     }
   }
 }

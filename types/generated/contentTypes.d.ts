@@ -362,173 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiCategoryCategory extends Schema.CollectionType {
-  collectionName: 'categories';
-  info: {
-    singularName: 'category';
-    pluralName: 'categories';
-    displayName: 'Category';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    categoryName: Attribute.String & Attribute.Required & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::category.category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::category.category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiProjectProject extends Schema.CollectionType {
-  collectionName: 'projects';
-  info: {
-    singularName: 'project';
-    pluralName: 'projects';
-    displayName: 'Project';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    title: Attribute.String &
-      Attribute.Required &
-      Attribute.SetMinMaxLength<{
-        maxLength: 100;
-      }>;
-    description: Attribute.RichText & Attribute.Required;
-    categories: Attribute.Component<'lists.categories', true> &
-      Attribute.Required;
-    unitPrice: Attribute.Decimal & Attribute.Required;
-    status: Attribute.Enumeration<['Open', 'Finished']> &
-      Attribute.Required &
-      Attribute.DefaultTo<'Open'>;
-    customer: Attribute.Relation<
-      'api::project.project',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    > &
-      Attribute.Required;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::project.project',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::project.project',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiPurchaseHistoryPurchaseHistory
-  extends Schema.CollectionType {
-  collectionName: 'purchase_histories';
-  info: {
-    singularName: 'purchase-history';
-    pluralName: 'purchase-histories';
-    displayName: 'Purchase_history';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    customer: Attribute.Relation<
-      'api::purchase-history.purchase-history',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    stripeId: Attribute.String;
-    products: Attribute.JSON;
-    completed: Attribute.Boolean & Attribute.DefaultTo<false>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::purchase-history.purchase-history',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::purchase-history.purchase-history',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiTemplateTemplate extends Schema.CollectionType {
-  collectionName: 'templates';
-  info: {
-    singularName: 'template';
-    pluralName: 'templates';
-    displayName: 'Template';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String &
-      Attribute.Required &
-      Attribute.SetMinMaxLength<{
-        maxLength: 100;
-      }>;
-    images: Attribute.Media<'images', true> & Attribute.Required;
-    description: Attribute.RichText;
-    categories: Attribute.Component<'lists.categories', true> &
-      Attribute.Required;
-    unitPrice: Attribute.Decimal & Attribute.Required;
-    freelancer: Attribute.Relation<
-      'api::template.template',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    > &
-      Attribute.Required;
-    status: Attribute.Enumeration<
-      ['APPROVED', 'PENDING REVIEW', 'REVIEWING ', 'NOT APPROVED']
-    > &
-      Attribute.Required &
-      Attribute.DefaultTo<'PENDING REVIEW'>;
-    template: Attribute.Media<'files'> & Attribute.Required;
-    url: Attribute.String & Attribute.Required;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::template.template',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::template.template',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -944,6 +777,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       Attribute.SetMinMaxLength<{
         maxLength: 200;
       }>;
+    stripeLink: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -961,6 +795,257 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiCategoryCategory extends Schema.CollectionType {
+  collectionName: 'categories';
+  info: {
+    singularName: 'category';
+    pluralName: 'categories';
+    displayName: 'Category';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    categoryName: Attribute.String & Attribute.Required & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPaymentPayment extends Schema.CollectionType {
+  collectionName: 'payments';
+  info: {
+    singularName: 'payment';
+    pluralName: 'payments';
+    displayName: 'Payment';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    amount: Attribute.Decimal & Attribute.Required;
+    isWithDrawn: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    template: Attribute.Relation<
+      'api::payment.payment',
+      'oneToOne',
+      'api::template.template'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::payment.payment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::payment.payment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProjectProject extends Schema.CollectionType {
+  collectionName: 'projects';
+  info: {
+    singularName: 'project';
+    pluralName: 'projects';
+    displayName: 'Project';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }>;
+    description: Attribute.RichText & Attribute.Required;
+    categories: Attribute.Component<'lists.categories', true> &
+      Attribute.Required;
+    unitPrice: Attribute.Decimal & Attribute.Required;
+    status: Attribute.Enumeration<['Open', 'Finished']> &
+      Attribute.Required &
+      Attribute.DefaultTo<'Open'>;
+    customer: Attribute.Relation<
+      'api::project.project',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    > &
+      Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::project.project',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::project.project',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPurchaseHistoryPurchaseHistory
+  extends Schema.CollectionType {
+  collectionName: 'purchase_histories';
+  info: {
+    singularName: 'purchase-history';
+    pluralName: 'purchase-histories';
+    displayName: 'Purchase_history';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    customer: Attribute.Relation<
+      'api::purchase-history.purchase-history',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    stripeId: Attribute.String;
+    products: Attribute.JSON;
+    completed: Attribute.Boolean & Attribute.DefaultTo<false>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::purchase-history.purchase-history',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::purchase-history.purchase-history',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiTemplateTemplate extends Schema.CollectionType {
+  collectionName: 'templates';
+  info: {
+    singularName: 'template';
+    pluralName: 'templates';
+    displayName: 'Template';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }>;
+    images: Attribute.Media<'images', true> & Attribute.Required;
+    description: Attribute.RichText;
+    categories: Attribute.Component<'lists.categories', true> &
+      Attribute.Required;
+    unitPrice: Attribute.Decimal & Attribute.Required;
+    freelancer: Attribute.Relation<
+      'api::template.template',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    > &
+      Attribute.Required;
+    status: Attribute.Enumeration<
+      ['APPROVED', 'PENDING REVIEW', 'REVIEWING ', 'NOT APPROVED']
+    > &
+      Attribute.Required &
+      Attribute.DefaultTo<'PENDING REVIEW'>;
+    template: Attribute.Media<'files'> & Attribute.Required;
+    url: Attribute.String & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::template.template',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::template.template',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiWithdrawalWithdrawal extends Schema.CollectionType {
+  collectionName: 'withdrawals';
+  info: {
+    singularName: 'withdrawal';
+    pluralName: 'withdrawals';
+    displayName: 'Withdrawal';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    payments: Attribute.Relation<
+      'api::withdrawal.withdrawal',
+      'oneToMany',
+      'api::payment.payment'
+    >;
+    status: Attribute.Enumeration<['PENDING', 'APPROVE', 'DENIED']> &
+      Attribute.Required &
+      Attribute.DefaultTo<'PENDING'>;
+    notes: Attribute.Text & Attribute.Required & Attribute.DefaultTo<'Nothing'>;
+    amount: Attribute.Decimal &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 100;
+        },
+        number
+      >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::withdrawal.withdrawal',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::withdrawal.withdrawal',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -971,10 +1056,6 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::category.category': ApiCategoryCategory;
-      'api::project.project': ApiProjectProject;
-      'api::purchase-history.purchase-history': ApiPurchaseHistoryPurchaseHistory;
-      'api::template.template': ApiTemplateTemplate;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -983,6 +1064,12 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::category.category': ApiCategoryCategory;
+      'api::payment.payment': ApiPaymentPayment;
+      'api::project.project': ApiProjectProject;
+      'api::purchase-history.purchase-history': ApiPurchaseHistoryPurchaseHistory;
+      'api::template.template': ApiTemplateTemplate;
+      'api::withdrawal.withdrawal': ApiWithdrawalWithdrawal;
     }
   }
 }
